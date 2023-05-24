@@ -1,23 +1,56 @@
 .view{
   width: 900px;
   background-color: rgb(216, 216, 216);
-  position: absolute; 
+  /* position: absolute;  */
   left: 50%; 
   transform: translateX(-50%);
-  display: flex;
+  /* display: flex; */
   margin-top: 40px;
+  position: relative;
+  display: table;
+  /* margin: 0 auto; */
 }
 
+/* show */
 .show{
+  position: absolute;
   width: 500px;
   height: 350px;
   border: 1px solid #000000;
 }
 
+.selectedImage{
+  position: absolute;
+  width: 200px;
+  top: 50%;  
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cardText{
+  padding: 20px 30px;
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 900;
+  font-family: 'Source Code Pro', monospace;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+/* menu */
 .menu{
   width: 400px;
   padding: 10px 30px;
+  float: right;
 }
+
+.materialImg{
+  width: 100px;
+  height: auto;
+}
+
 
 .form-control {
   width: 100%;
@@ -39,6 +72,53 @@
 .spanText{
   width: 95%;
 }
+
 .glyphicon{
   width: 5%;
 }
+
+.popup{
+  position: fixed;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 700px;
+  /* height: 400px; */
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  text-align: center;
+  /* max-height: 550px; */
+}
+
+.popupDiv{
+  overflow: auto;
+  max-height: 520px;
+}
+
+.popupContent{
+  /* display: flex; */
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}
+
+.popupBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+    padding: 0;
+    transition: color .1s ease-out;
+    border: none;
+    border-radius: 0;
+    background: 0 0;
+    font-family: serif;
+    font-size: 2.5em;
+    line-height: 1.2;
+    cursor: pointer;
+    overflow: hidden;
+}
+
