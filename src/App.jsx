@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import React, {Component, PropTypes} from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -8,6 +8,12 @@ import './App.css'
 import ColorPicker from './component/ColorPicker'
 import ColorBackground from './component/ColorBackground'
 import Popup from './component/Popup'
+// import "nes.css/css/nes.min.css";
+import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
+
+// import { DownloadOutlined } from '@ant-design/icons';
+// import { Button, Divider, Radio, Space } from 'antd';
 
 const App = () => {
 
@@ -19,7 +25,17 @@ const App = () => {
     const [cardText, setCardText] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
 
-    const area = ["台北市","基隆市","新北市","連江縣","宜蘭縣","新竹市","新竹縣","桃園市","苗栗縣","台中市",
+    const [formData, setFormData] = useState({
+        name:'',
+        phone:'',
+        county:'',
+        countyArea:'',
+        address:''
+    });
+
+    // const [size, setSize] = useState('large'); // default is 'middle'
+
+    const county = ["台北市","基隆市","新北市","連江縣","宜蘭縣","新竹市","新竹縣","桃園市","苗栗縣","台中市",
     "彰化縣","南投縣","嘉義市","嘉義縣","雲林縣","台南市","高雄市","澎湖縣","金門縣","屏東縣","台東縣","花蓮縣"]
 
     const images = [
@@ -74,7 +90,7 @@ const App = () => {
         closePopup();
     };
 
-    const handleTexthange = (event) => {
+    const handleTextChange = (event) => {
         setCardText(event.target.value);
     }
 
@@ -82,6 +98,43 @@ const App = () => {
         console.log('date =>', date.toLocaleDateString('en-US'))
         setSelectedDate(date);
     };
+
+    const divRef = useRef(null);
+
+    // 儲存圖片
+    const handleDownload = () => {
+        html2canvas(divRef.current).then((canvas) => {
+            canvas.toBlob((blob) => {
+                saveAs(blob, 'christmasCard.jpg');
+            });
+        });
+    };
+
+    const handleNameChange = (e) => {
+        const newName = e.target.value;
+        setFormData({ ...formData, name: newName });
+    }
+
+    const handlePhoneChange = (e) => {
+        const newPhone = e.target.value;
+        setFormData({ ...formData, phone: newPhone });
+    }
+
+    const handleCountyChange = (e) => {
+        const newCounty = e.target.value;
+        setFormData({ ...formData, county: newCounty });
+    }
+
+    const handleCountyAreaChange = (e) => {
+        const newCountyArea = e.target.value;
+        setFormData({ ...formData, countyArea: newCountyArea });
+    }
+
+    const handleAddressChange = (e) => {
+        const newAddress = e.target.value;
+        setFormData({ ...formData, address: newAddress });
+    }
+
 
     useEffect(() => {
         console.log('showPopup =>', showPopup)
@@ -92,73 +145,109 @@ const App = () => {
     },[selectedImage])
 
     return (
-        <div className="view">
-            <div className='show'>
-                {/* <ColorBackground selectedColor={selectedColor}/> */}
-                <div className='bg'
-                    style={{width: '100%',height: '100%',backgroundColor: selectedColor}}>
-                    {   
-                        selectedImage ?
-                            <img className='selectedImage' src={selectedImage.src} />
-                        :''
-                    } 
-                    {
-                        cardText ?
-                            <p className='cardText'>{cardText}</p>
-                        :''
-                    }
-                    {
-                        selectedDate?
-                            <p className='cardDate'>{selectedDate.toLocaleDateString('en-US')}</p>
-                        :''
-                    }
+        <div className='main'>
+            <div className="view">
+                <div className='show' ref={divRef}>
+                    {/* <ColorBackground selectedColor={selectedColor}/> */}
+                    <div className='bg'
+                        style={{width: '100%',height: '100%',backgroundColor: selectedColor}}>
+                        {   
+                            selectedImage ?
+                                <img className='selectedImage' src={selectedImage.src} />
+                            :''
+                        } 
+                        {
+                            cardText ?
+                                <p className='cardText'>{cardText}</p>
+                            :''
+                        }
+                        {
+                            selectedDate?
+                                <span className="cardDate">{selectedDate.toLocaleDateString('en-US')}</span>
+                            :''
+                        }
+                    </div>
+                <button onClick={handleDownload} className='btn btn-primary'>下載圖片</button>
+                </div>
+
+                <div className="menu">
+                    <h3 className="text-center">聖誕明信片客製化</h3>
+                    <hr/>
+                    <div className='backgroundColor'>
+                        <label>顏色：</label>
+                        <ColorPicker selectedColor={selectedColor} onColorChange={handleColorChange} />
+                    </div>
+                    <div>
+                        <label>圖案：</label>
+                        <div className="form-control select2-single" onClick={openPopup}>
+                            <span id="type" className="spanText">
+                                {
+                                    selectedImage.name
+                                }
+                            </span>
+                            <span className="glyphicon glyphicon-triangle-bottom"></span>
+                        </div>
+                        {
+                            showPopup && (
+                                <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
+                            )
+                        }
+                    </div>
+
+                    <div>
+                        <label>文字：</label>
+                        <input className='form-control' onChange={handleTextChange}  placeholder="Dear..." maxLength="20" ></input>
+                    </div>
+
+                    <div>
+                        <label>日期：</label>
+                        {/* <input className='form-control' onChange={handleTextChange}></input> */}
+                        <DatePicker className='form-control' selected={selectedDate} onChange={handleDateChange} />
+                    </div>
+                    
+                    <button className='nextBtn btn btn-secondary'>
+                        <a href='#inform'>下一步</a>
+                    </button>
+                    
                 </div>
             </div>
-            <div className="menu">
-                <h3 className="text-center">聖誕卡片客製化</h3>
+
+            <div id='inform'>
+                <h3 className="text-center">填寫寄送資訊</h3>
                 <hr/>
-                <div className='backgroundColor'>
-                    <label>顏色：</label>
-                    <ColorPicker selectedColor={selectedColor} onColorChange={handleColorChange} />
-                </div>
-                <div>
-                    <label>圖案：</label>
-                    <div className="form-control select2-single" onClick={openPopup}>
-                        <span id="type" className="spanText">
-                            {
-                                selectedImage.name
-                            }
-                        </span>
-                        <span className="glyphicon glyphicon-triangle-bottom"></span>
-                    </div>
-                    {
-                        showPopup && (
-                            <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
-                        )
-                    }
-                </div>
 
                 <div>
-                    <label>文字：</label>
-                    <input className='form-control' onChange={handleTexthange}  placeholder="Dear..." maxLength="20" ></input>
+                    <label>姓名：</label>
+                    <input className='informInput form-control' onChange={handleNameChange}></input>
                 </div>
-
                 <div>
-                    <label>日期：</label>
-                    {/* <input className='form-control' onChange={handleTexthange}></input> */}
-                    <DatePicker className='form-control' selected={selectedDate} onChange={handleDateChange} />
+                    <label>電話：</label>
+                    <input className='informInput form-control' onChange={handlePhoneChange}></input>
                 </div>
-                
-
-                {/* 縣市 */}
-                {/* <select value={area[0].data[0]} onChange={handleSelectChange}>
-                    {
-                        area[0].data.map((a, index) => (
-                            <option key={index}>{a}</option>
-                        ))
-                    }
-                </select> */}
-                
+                <div>
+                    <label>縣市：</label>
+                    <select value={county[0]} onChange={handleCountyChange}>
+                        {
+                            county.map((item, index) => (
+                                <option key={index}>{item}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label>區域：</label>
+                    <select value={county[0]} onChange={handleCountyAreaChange}>
+                        {
+                            county.map((item, index) => (
+                                <option key={index}>{item}</option>
+                            ))
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label>住址：</label>
+                    <input className='informInput form-control' onChange={handleAddressChange}></input>
+                </div>
             </div>
         </div>
     )

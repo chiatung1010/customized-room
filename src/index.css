@@ -1,14 +1,14 @@
+.main{
+  margin: 40px 0;
+}
+
 .view{
   width: 900px;
   background-color: rgb(216, 216, 216);
-  /* position: absolute;  */
   left: 50%; 
   transform: translateX(-50%);
-  /* display: flex; */
-  margin-top: 40px;
   position: relative;
   display: table;
-  /* margin: 0 auto; */
 }
 
 /* show */
@@ -22,7 +22,7 @@
 .selectedImage{
   position: absolute;
   width: 200px;
-  top: 50%;  
+  top: 55%;  
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -34,9 +34,24 @@
   font-weight: 900;
   font-family: 'Source Code Pro', monospace;
   width: 100%;
+  text-align: center;
   word-wrap: break-word;
   word-break: break-all;
   overflow: hidden;
+}
+
+.cardDate{
+  position: absolute;
+  float: right;
+  right: 0;
+  bottom: 0;
+  margin: 0 15px 15px 0;
+  color: rgb(255, 230, 67);
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Source Code Pro', monospace;
+  overflow: hidden;
+  text-shadow: -1px -1px white, 1px 1px #bfbfbf
 }
 
 /* menu */
@@ -122,3 +137,27 @@
     overflow: hidden;
 }
 
+.nextBtn{
+  width: 100%;
+  margin: 20px 0;
+}
+
+a{
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* inform */
+#inform{
+  /* display: block; */
+  width: 900px;
+  margin: 40px 0;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
