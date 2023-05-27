@@ -4,7 +4,7 @@ const ColorPicker = ({ selectedColor, onColorChange }) => {
         onColorChange(event.target.value);
     };
 
-    console.log('232 selectedColor =>', selectedColor)
+    // console.log('232 selectedColor =>', selectedColor)
 
     return (
         <div>

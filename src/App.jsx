@@ -1,25 +1,26 @@
 import { useEffect, useState, useRef } from 'react'
 import React, {Component, PropTypes} from 'react'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-// import type { DatePickerProps } from 'antd';
-// import { DatePicker, Space } from 'antd';
 import './App.css'
-import ColorPicker from './component/ColorPicker'
-import ColorBackground from './component/ColorBackground'
-import Popup from './component/Popup'
-// import "nes.css/css/nes.min.css";
+
+// 日期選擇器
+import 'react-datepicker/dist/react-datepicker.css';
+// 儲存圖片
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 
-// import { DownloadOutlined } from '@ant-design/icons';
-// import { Button, Divider, Radio, Space } from 'antd';
+// 元件
+import DatePicker from 'react-datepicker';
+import ColorPicker from './component/ColorPicker'
+import Card from './component/Card'
+import Popup from './component/Popup'
+import ImagePicker from './component/ImagePicker'
+import Form from './component/Form'
 
 const App = () => {
 
     // 此為解構賦值，使用時須用{}括起
     // 前者：使用，後者：改變
-    const [selectedColor, setSelectedColor] = useState('#ffcccc');
+    const [selectedColor, setSelectedColor] = useState('#DFCCA5');
     const [showPopup, setShowPopup] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
     const [cardText, setCardText] = useState('');
@@ -28,15 +29,14 @@ const App = () => {
     const [formData, setFormData] = useState({
         name:'',
         phone:'',
-        county:'',
-        countyArea:'',
+        county:'臺北市',
+        area:'',
         address:''
     });
 
-    // const [size, setSize] = useState('large'); // default is 'middle'
-
-    const county = ["台北市","基隆市","新北市","連江縣","宜蘭縣","新竹市","新竹縣","桃園市","苗栗縣","台中市",
-    "彰化縣","南投縣","嘉義市","嘉義縣","雲林縣","台南市","高雄市","澎湖縣","金門縣","屏東縣","台東縣","花蓮縣"]
+    const [countyData, setCountyData] = useState([]); // 縣市資料
+    const [areaData, setAreaData] = useState([]); // 區域資料
+    const [areaIndex, setAreaIndex] = useState(0); // 當下選取的區域索引
 
     const images = [
         { id: 1, src: './image/christmas_pic/0001.png', name: 'Q版聖誕老人' },
@@ -80,7 +80,6 @@ const App = () => {
     const closePopup = () => {
         console.log('closePopup')
         setShowPopup(false);
-        
     };
 
     // 已選擇圖片時
@@ -104,7 +103,9 @@ const App = () => {
     // 儲存圖片
     const handleDownload = () => {
         html2canvas(divRef.current).then((canvas) => {
+            console.log('canvas',canvas)
             canvas.toBlob((blob) => {
+                console.log('blob ', blob.text())
                 saveAs(blob, 'christmasCard.jpg');
             });
         });
@@ -122,19 +123,60 @@ const App = () => {
 
     const handleCountyChange = (e) => {
         const newCounty = e.target.value;
-        setFormData({ ...formData, county: newCounty });
+        const index = countyData.findIndex((e)=> e.counrty == newCounty)
+        
+        console.log('newCounty=>', newCounty) // 縣市名稱
+        console.log('133: countyData=>', countyData) // 縣市索引
+        
+        setAreaData(countyData[index].countyArea)
+        setAreaIndex(0)
+        setFormData({ ...formData, county: newCounty, area: countyData[index].countyArea[0]});
     }
 
-    const handleCountyAreaChange = (e) => {
-        const newCountyArea = e.target.value;
-        setFormData({ ...formData, countyArea: newCountyArea });
+    const handleAreaChange = (e) => {
+        const newAreaIndex = e.target.value;
+        const newArea = e.target.options[newAreaIndex].text;
+        console.log('e.target=>', e.target)
+        console.log('newAreaIndex=>', newAreaIndex)
+        console.log('newArea=>', newArea)
+        
+        setAreaIndex(newAreaIndex)
+        setFormData({ ...formData, area: newArea });
     }
 
     const handleAddressChange = (e) => {
         const newAddress = e.target.value;
+        console.log('newAddress =>', newAddress)
         setFormData({ ...formData, address: newAddress });
     }
 
+    const handleSendClick = (e) => {
+        console.log('e.target.parentNode =>', e.target.parentNode)
+        // const formDiv = e.target.parentNode
+    }
+
+    // 頁面第一次渲染時，引入縣市區Json檔案 並加入至變數初始值
+    useEffect(() => {
+        console.log('new')
+        fetch('./json/area.json')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('data =>',data.area);
+                setCountyData(data.area)
+                setAreaData(data.area[0].countyArea)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    },[])
+
+    useEffect(() => {
+        console.log('formData=>', formData)
+    },[formData])
+
+    useEffect(() => {
+        console.log('countyData =>', countyData)
+    },[countyData])
 
     useEffect(() => {
         console.log('showPopup =>', showPopup)
@@ -147,46 +189,20 @@ const App = () => {
     return (
         <div className='main'>
             <div className="view">
+                <h3 className="text-center">聖誕明信片客製化</h3>
+                <hr/>
                 <div className='show' ref={divRef}>
-                    {/* <ColorBackground selectedColor={selectedColor}/> */}
-                    <div className='bg'
-                        style={{width: '100%',height: '100%',backgroundColor: selectedColor}}>
-                        {   
-                            selectedImage ?
-                                <img className='selectedImage' src={selectedImage.src} />
-                            :''
-                        } 
-                        {
-                            cardText ?
-                                <p className='cardText'>{cardText}</p>
-                            :''
-                        }
-                        {
-                            selectedDate?
-                                <span className="cardDate">{selectedDate.toLocaleDateString('en-US')}</span>
-                            :''
-                        }
-                    </div>
-                <button onClick={handleDownload} className='btn btn-primary'>下載圖片</button>
+                    <Card selectedColor={selectedColor} selectedImage={selectedImage} cardText={cardText} selectedDate={selectedDate} handleDownload={handleDownload}/>
                 </div>
 
                 <div className="menu">
-                    <h3 className="text-center">聖誕明信片客製化</h3>
-                    <hr/>
-                    <div className='backgroundColor'>
+                    <div className='lineDiv'>
                         <label>顏色：</label>
                         <ColorPicker selectedColor={selectedColor} onColorChange={handleColorChange} />
                     </div>
-                    <div>
+                    <div className='lineDiv'>
                         <label>圖案：</label>
-                        <div className="form-control select2-single" onClick={openPopup}>
-                            <span id="type" className="spanText">
-                                {
-                                    selectedImage.name
-                                }
-                            </span>
-                            <span className="glyphicon glyphicon-triangle-bottom"></span>
-                        </div>
+                        <ImagePicker openPopup={openPopup} selectedImage={selectedImage}/>
                         {
                             showPopup && (
                                 <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
@@ -194,60 +210,29 @@ const App = () => {
                         }
                     </div>
 
-                    <div>
+                    <div className='lineDiv'>
                         <label>文字：</label>
                         <input className='form-control' onChange={handleTextChange}  placeholder="Dear..." maxLength="20" ></input>
                     </div>
 
-                    <div>
+                    <div className='lineDiv'>
                         <label>日期：</label>
-                        {/* <input className='form-control' onChange={handleTextChange}></input> */}
                         <DatePicker className='form-control' selected={selectedDate} onChange={handleDateChange} />
                     </div>
                     
-                    <button className='nextBtn btn btn-secondary'>
-                        <a href='#inform'>下一步</a>
-                    </button>
-                    
+                    <a href='#inform'>
+                        <button className='nextBtn btn btn-secondary'>下一步</button>
+                    </a>
                 </div>
             </div>
 
             <div id='inform'>
-                <h3 className="text-center">填寫寄送資訊</h3>
-                <hr/>
-
-                <div>
-                    <label>姓名：</label>
-                    <input className='informInput form-control' onChange={handleNameChange}></input>
-                </div>
-                <div>
-                    <label>電話：</label>
-                    <input className='informInput form-control' onChange={handlePhoneChange}></input>
-                </div>
-                <div>
-                    <label>縣市：</label>
-                    <select value={county[0]} onChange={handleCountyChange}>
-                        {
-                            county.map((item, index) => (
-                                <option key={index}>{item}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div>
-                    <label>區域：</label>
-                    <select value={county[0]} onChange={handleCountyAreaChange}>
-                        {
-                            county.map((item, index) => (
-                                <option key={index}>{item}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                <div>
-                    <label>住址：</label>
-                    <input className='informInput form-control' onChange={handleAddressChange}></input>
-                </div>
+                <form>
+                    <Form handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} 
+                    handleCountyChange={handleCountyChange} countyData={countyData} areaIndex={areaIndex} 
+                    handleAreaChange={handleAreaChange} areaData={areaData} handleAddressChange={handleAddressChange} 
+                    handleSendClick={handleSendClick}/>
+                </form>
             </div>
         </div>
     )
