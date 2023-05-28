@@ -15,6 +15,7 @@ import Card from './component/Card'
 import Popup from './component/Popup'
 import ImagePicker from './component/ImagePicker'
 import Form from './component/Form'
+import CardText from './component/CardText';
 
 const App = () => {
 
@@ -37,6 +38,9 @@ const App = () => {
     const [countyData, setCountyData] = useState([]); // 縣市資料
     const [areaData, setAreaData] = useState([]); // 區域資料
     const [areaIndex, setAreaIndex] = useState(0); // 當下選取的區域索引
+
+    const [showImages, setShowImages] = useState(false);
+    const imageContainerRef = useRef(null);
 
     const images = [
         { id: 1, src: './image/christmas_pic/0001.png', name: 'Q版聖誕老人' },
@@ -152,6 +156,7 @@ const App = () => {
 
     const handleSendClick = (e) => {
         console.log('e.target.parentNode =>', e.target.parentNode)
+        console.log('formData=>', formData)
         // const formDiv = e.target.parentNode
     }
 
@@ -170,9 +175,42 @@ const App = () => {
             });
     },[])
 
+    // useEffect(() => {
+    //     const options = {
+    //         root: null,
+    //         rootMargin: '0px',
+    //         threshold: 0.5, // 設定觸發點為圖片元素進入可見範圍 50%
+    //     };
+
+    //     const handleIntersection = (entries) => {
+    //         entries.forEach((entry) => {
+    //         if (entry.isIntersecting) {
+    //             setShowImages(true);
+    //         }
+    //         });
+    //     };
+
+    //     const observer = new IntersectionObserver(handleIntersection, options);
+    //     const target = imageContainerRef.current;
+
+    //     if (target) {
+    //         observer.observe(target);
+    //     }
+
+    //     return () => {
+    //         if (target) {
+    //         observer.unobserve(target);
+    //         }
+    //     };
+    // }, []);
+
     useEffect(() => {
-        console.log('formData=>', formData)
-    },[formData])
+        console.log('showImages=>', showImages)
+    },[showPopup])
+
+    // useEffect(() => {
+    //     console.log('formData=>', formData)
+    // },[formData])
 
     useEffect(() => {
         console.log('countyData =>', countyData)
@@ -196,24 +234,38 @@ const App = () => {
                 </div>
 
                 <div className="menu">
-                    <div className='lineDiv'>
-                        <label>顏色：</label>
-                        <ColorPicker selectedColor={selectedColor} onColorChange={handleColorChange} />
-                    </div>
-                    <div className='lineDiv'>
-                        <label>圖案：</label>
-                        <ImagePicker openPopup={openPopup} selectedImage={selectedImage}/>
-                        {
-                            showPopup && (
-                                <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
-                            )
-                        }
-                    </div>
+                    <ColorPicker selectedColor={selectedColor} onColorChange={handleColorChange} />
+                    
+                    <ImagePicker openPopup={openPopup} selectedImage={selectedImage}/>
+                    
+                    {
+                        showPopup && (
+                            <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
+                       
+                            // <div className="popup">
+                            //     <div className="popupTitle">
+                            //         <h3>選擇圖片</h3>
+                            //     </div>
+                            //     <div className="popupDiv">
+                            //         <div className="popupContent">
+                            //             <div className="imageContainer" ref={imageContainerRef}>
+                            //                 {
+                            //                     showImages &&
+                            //                         images.map((image) => (
+                            //                             <div key={image.id} onClick={() => selectImage(image)}>
+                            //                             <img className='materialImg' src={image.src} alt="" />
+                            //                             <p>{image.name}</p>
+                            //                             </div>
+                            //                         ))
+                            //                 }
+                            //             </div>
+                            //         </div>
+                            //     </div>
+                            // </div>
+                        )
+                    }
 
-                    <div className='lineDiv'>
-                        <label>文字：</label>
-                        <input className='form-control' onChange={handleTextChange}  placeholder="Dear..." maxLength="20" ></input>
-                    </div>
+                    <CardText handleTextChange={handleTextChange}/>
 
                     <div className='lineDiv'>
                         <label>日期：</label>

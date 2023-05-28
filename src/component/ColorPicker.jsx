@@ -7,12 +7,15 @@ const ColorPicker = ({ selectedColor, onColorChange }) => {
     // console.log('232 selectedColor =>', selectedColor)
 
     return (
-        <div>
-            <input
-                type="color"
-                value={selectedColor}
-                onChange={handleColorChange}
-            />
+        <div className='lineDiv'>
+            <label>顏色：</label>
+            <div>
+                <input
+                    type="color"
+                    value={selectedColor}
+                    onChange={handleColorChange}
+                />
+            </div>
         </div>
     );
 };
