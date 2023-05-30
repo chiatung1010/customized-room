@@ -3,7 +3,7 @@ const CardText =({handleTextChange}) =>{
     return(
         <div className='lineDiv'>
             <label>文字：</label>
-            <input className='form-control' onChange={handleTextChange}  placeholder="Dear..." maxLength="20" ></input>
+            <input className='form-control' onChange={handleTextChange}  placeholder="say something..." maxLength="20" ></input>
         </div>
     )
 }

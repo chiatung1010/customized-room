@@ -1,7 +1,7 @@
 const Form = ({handleNameChange, handlePhoneChange, handleCountyChange, countyData, areaIndex, handleAreaChange, areaData, handleAddressChange, handleSendClick}) => {
     return (
         <div>
-            <h3 className="text-center">填寫寄送資訊</h3>
+            <h3 className="text-center">實體寄送</h3>
             <hr/>
             <div className="row lineDiv">
                 <div className="col">
