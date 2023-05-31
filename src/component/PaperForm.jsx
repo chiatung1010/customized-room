@@ -1,4 +1,4 @@
-const Form = ({handleNameChange, handlePhoneChange, handleCountyChange, countyData, areaIndex, handleAreaChange, areaData, handleAddressChange, handleSendClick}) => {
+const PaperForm = ({handleNameChange, handlePhoneChange, handleCountyChange, countyData, areaIndex, handleAreaChange, areaData, handleAddressChange, handleSendClick}) => {
     return (
         <div>
             <h3 className="text-center">實體寄送</h3>
@@ -6,11 +6,11 @@ const Form = ({handleNameChange, handlePhoneChange, handleCountyChange, countyDa
             <div className="row lineDiv">
                 <div className="col">
                     <label>姓名：</label>
-                    <input className='informInput form-control' onChange={handleNameChange}></input>
+                    <input className='informInput form-control' onChange={handleNameChange} required="required"></input>
                 </div>
                 <div className="col">
                     <label>電話：</label>
-                    <input className='informInput form-control' type='number' onChange={handlePhoneChange}></input>
+                    <input className='informInput form-control' type='number' onChange={handlePhoneChange} required="required"></input>
                 </div>
             </div>
             <div className="row lineDiv">
@@ -36,7 +36,7 @@ const Form = ({handleNameChange, handlePhoneChange, handleCountyChange, countyDa
                 </div>
                 <div className="col-md-6">
                     <label>住址：</label>
-                    <input className='informInput form-control' onChange={handleAddressChange}></input>
+                    <input className='informInput form-control' onChange={handleAddressChange} required="required"></input>
                 </div>
 
             </div>
@@ -48,4 +48,4 @@ const Form = ({handleNameChange, handlePhoneChange, handleCountyChange, countyDa
     );
 };
 
-export default Form
+export default PaperForm

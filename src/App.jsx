@@ -2,14 +2,18 @@ import { useEffect, useState, useRef } from 'react'
 import React, {Component, PropTypes} from 'react'
 import './App.css'
 
+import { images } from '../public/json/images.jsx';
+
 // 日期選擇器
 import 'react-datepicker/dist/react-datepicker.css';
 // 儲存圖片
 import html2canvas from 'html2canvas';
 import { saveAs } from 'file-saver';
 // 延遲載入
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import PlaceholderImage from "../public/image/loading.jpg"
+// import { LazyLoadImage } from "react-lazy-load-image-component";
+// import PlaceholderImage from "../public/image/loading.jpg"
+// 彈跳視窗
+import Swal from 'sweetalert2';
 
 // 元件
 import DatePicker from 'react-datepicker';
@@ -17,7 +21,9 @@ import ColorPicker from './component/ColorPicker'
 import Card from './component/Card'
 import Popup from './component/Popup'
 import ImagePicker from './component/ImagePicker'
-import Form from './component/Form'
+import Date from './component/Date'
+import EmailForm from './component/EmailForm'
+import PaperForm from './component/PaperForm'
 import CardText from './component/CardText';
 
 const App = () => {
@@ -35,11 +41,19 @@ const App = () => {
     const [cardText, setCardText] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
 
+    // email寄送
+    const [emailData, setEmailData] = useState({
+        name:'',
+        email:'',
+        content:''
+    });
+
+    // 實體寄送
     const [formData, setFormData] = useState({
         name:'',
         phone:'',
         county:'臺北市',
-        area:'',
+        area:'中正區',
         address:''
     });
 
@@ -48,42 +62,15 @@ const App = () => {
     const [areaIndex, setAreaIndex] = useState(0); // 當下選取的區域索引
 
     // 寄送方式區塊選擇
-    const [showEmailDelivery, setShowEmailDelivery] = useState(false);
+    const [showEmailDelivery, setShowEmailDelivery] = useState(true);
     const [showPaperDelivery, setShowPaperDelivery] = useState(false);
 
     // 新增div classname
     const [divHeight, setDivHeight] = useState(false);
 
-    // 延遲載入的部分
-    const [showImages, setShowImages] = useState(false);
-    const imageContainerRef = useRef(null);
-
-    const images = [
-        { id: 1, src: './image/christmas_pic/0001.png', name: 'Q版聖誕老人' },
-        { id: 2, src: './image/christmas_pic/0002.png', name: '調皮老人' },
-        { id: 3, src: './image/christmas_pic/0003.png', name: '聖誕樹雪球' },
-        { id: 4, src: './image/christmas_pic/0004.png', name: '雪人胖胖' },
-        { id: 5, src: './image/christmas_pic/0005.png', name: '襪襪' },
-        { id: 6, src: './image/christmas_pic/0006.png', name: '雪天使貓貓' },
-        { id: 7, src: './image/christmas_pic/0007.png', name: '聖誕花圈' },
-        { id: 8, src: './image/christmas_pic/0008.png', name: '聖誕熊熊' },
-        { id: 9, src: './image/christmas_pic/0009.png', name: '可愛熊熊' },
-        { id: 10, src: './image/christmas_pic/0010.png', name: '開心鹿' },
-        { id: 11, src: './image/christmas_pic/0011.png', name: 'MERRY X\'MAS雪球' },
-        { id: 12, src: './image/christmas_pic/0012.png', name: '薑餅人' },
-        { id: 13, src: './image/christmas_pic/0013.png', name: '貓咪魚' },
-        { id: 14, src: './image/christmas_pic/0014.png', name: '聖誕老人掰' },
-        { id: 15, src: './image/christmas_pic/0015.png', name: '聖誕帽' },
-        { id: 16, src: './image/christmas_pic/0016.png', name: '聖誕樹' },
-        { id: 17, src: './image/christmas_pic/0017.png', name: '貓咪球' },
-        { id: 18, src: './image/christmas_pic/0018.png', name: '雪球' },
-        { id: 19, src: './image/christmas_pic/0019.png', name: '燈串聖誕樹' },
-        { id: 20, src: './image/christmas_pic/0020.png', name: 'Santa Is Here' },
-        { id: 21, src: './image/christmas_pic/0021.png', name: '嗨~聖誕老公公' },
-        { id: 22, src: './image/christmas_pic/0022.png', name: '雪人大頭' },
-        { id: 23, src: './image/christmas_pic/0023.png', name: '外送員麋鹿' },
-        { id: 24, src: './image/christmas_pic/0024.png', name: '掛星星老公公' },
-    ];
+    // 延遲載入
+    // const [showImages, setShowImages] = useState(false);
+    // const imageContainerRef = useRef(null);
 
     // 回呼函式
     // 當ColorPicker更新時，使用 setSelectedColor 函式更新 selectedColor 狀態的值
@@ -92,17 +79,19 @@ const App = () => {
         setSelectedColor(color);
     };
 
+    // 開啟彈跳視窗
     const openPopup = () => {
         console.log('openPopup')
         setShowPopup(true);
     };
 
+    // 關閉彈跳視窗
     const closePopup = () => {
         console.log('closePopup')
         setShowPopup(false);
     };
 
-    // 已選擇圖片時
+    // 已選擇圖片時，儲存選擇，並關閉視窗
     const selectImage = (image) => {
         console.log('31:image =>', image)
         setSelectedImage(image);
@@ -118,6 +107,7 @@ const App = () => {
         setSelectedDate(date);
     };
 
+    // 將div節點取出，並轉為canvas，儲存成圖片
     const divRef = useRef(null);
 
     // 儲存圖片
@@ -131,6 +121,7 @@ const App = () => {
         });
     };
 
+    // 至下個區塊，給下個區塊高
     const handleNextStep = () => {
         setDivHeight(true)
     }
@@ -147,6 +138,7 @@ const App = () => {
         // setDivHeight(true)
     }
 
+    // 實體寄送資料儲存
     const handleNameChange = (e) => {
         const newName = e.target.value;
         setFormData({ ...formData, name: newName });
@@ -186,14 +178,44 @@ const App = () => {
         setFormData({ ...formData, address: newAddress });
     }
 
+    // 實體寄送，送出後，彈跳視窗顯示資料
     const handleSendClick = (e) => {
         console.log('e.target.parentNode =>', e.target.parentNode)
         console.log('formData=>', formData)
-        // const formDiv = e.target.parentNode
+        let text = formData.name + '/' + formData.phone + '/' + formData.county + '/'+ formData.area + '/'+ formData.address
+        Swal.fire({
+            icon: 'success',
+            title: '已成功送出!',
+            html:
+                `<p>姓名： ${formData.name}</p> 
+                <p>電話： ${formData.phone}</p> 
+                <p>地區： ${formData.county} / ${formData.area}</p>
+                <p>地址： ${formData.address}</p>`
+        });
+    }
+
+    // 電子寄送資料儲存
+    const handleENameChange = (e) => {
+        const newName = e.target.value;
+        setEmailData({ ...emailData, name: newName });
+    }
+
+    const handleEmailChange = (e) => {
+        const newEmail = e.target.value;
+        setEmailData({ ...emailData, email: newEmail });
+    }
+
+    const handleEcontentChange = (e) => {
+        const newContent = e.target.value;
+        setEmailData({ ...emailData, content: newContent });
     }
 
     const handleSendEmailClick = () => {
-        window.location.href = "mailto:abc@gmail.com?cc=def@gmail.com,ghi@gmail.com&bcc=jkl@gmail.com&subject=這是一個主旨&body=xxx 您好：%0D%0A我想問的事情是%0D%0A回信請回到";
+        console.log('emailData =>', emailData)
+        if(emailData.name && emailData.email && emailData.content){
+            let emailHref = "mailto:" + emailData.email + "?subject=給" + emailData.name + "的聖誕卡片&" + "body=" + emailData.content
+            window.location.href = emailHref;
+        }
     }
 
     // 頁面第一次渲染時，引入縣市區Json檔案 並加入至變數初始值
@@ -295,26 +317,6 @@ const App = () => {
     //     };
     // }, []);
 
-    useEffect(() => {
-        console.log('showImages=>', showImages)
-    },[showPopup])
-
-    // useEffect(() => {
-    //     console.log('formData=>', formData)
-    // },[formData])
-
-    useEffect(() => {
-        console.log('countyData =>', countyData)
-    },[countyData])
-
-    useEffect(() => {
-        console.log('showPopup =>', showPopup)
-    },[showPopup])
-
-    useEffect(() => {
-        console.log('selectedImage =>', selectedImage)
-    },[selectedImage])
-
     return (
         <div className='main'>
             <div className='top'>
@@ -343,7 +345,6 @@ const App = () => {
                         <a className='goStart' href='#view'>Go Start...</a>
                     </div>
                 </div>
-                {/* <p className="topic text-center">製作您的專屬聖誕明信片</p> */}
             </div>
             <div className="view" id='view'>
                 <img src='./image/banner/background_04.jpg' className='viewBG'></img>
@@ -360,13 +361,9 @@ const App = () => {
 
                         <CardText handleTextChange={handleTextChange}/>
 
-                        <div className='lineDiv'>
-                            <label>日期：</label>
-                            <DatePicker className='form-control' selected={selectedDate} onChange={handleDateChange} />
-                        </div>
+                        <Date DatePicker={DatePicker} selectedDate={selectedDate} handleDateChange={handleDateChange}/>
                         
                         <a href='#goSend'>
-                        {/* <a> */}
                             <button className='nextBtn btn btn-secondary' onClick={handleNextStep}>下一步</button>
                         </a>
                     </div>
@@ -419,89 +416,45 @@ const App = () => {
                     )
                 }
             </div>
-{/* 
-            <div id='nextStep'>
-                <a href='#goSend'>
-                    <button className='chooseBtn btn btn-outline-secondary' id='goEmailDelivery' onClick={handleGoEmailClick}>電子寄送</button>
-                </a>
-                <a href='#goSend'>
-                    <button className='chooseBtn btn btn-outline-secondary' id='goPaperDelivery' onClick={handleGoPaperClick}>實體寄送</button>
-                </a>
-            </div> */}
 
             {/* 觸發之後，才有區塊高度 */}
             {
                 divHeight && (
                     <div id='goSend' className={`${divHeight ? 'divHeight' : ''}`}>
-                        <div id='nextStep'>
+                        <div id='sendBtn'>
                             <a href='#goSend'>
-                                <button className='chooseBtn btn btn-outline-secondary' id='goEmailDelivery' onClick={handleGoEmailClick}>電子寄送</button>
+                                <button className={`${showEmailDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goEmailDelivery' onClick={handleGoEmailClick}>電子寄送</button>
                             </a>
                             <a href='#goSend'>
-                                <button className='chooseBtn btn btn-outline-secondary' id='goPaperDelivery' onClick={handleGoPaperClick}>實體寄送</button>
+                                <button className={`${showPaperDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goPaperDelivery' onClick={handleGoPaperClick}>實體寄送</button>
                             </a>
                         </div>
-                        {
-                            showEmailDelivery && (
-                                <div id='emailDelivery'>
+                        <div id='sendForm'>
+                            {
+                                <div id='emailDelivery' className={`${showEmailDelivery ? 'fadeIn' : 'fadeOut'}`}>
                                     <form>
-                                        <div>
-                                            <h3 className="text-center">電子寄送</h3>
-                                            <hr/>
-                                            <div className="row lineDiv">
-                                                <div className="col">
-                                                    <label>姓名：</label>
-                                                    <input className='informInput form-control' onChange={handleNameChange}></input>
-                                                </div>
-                                                <div className="col">
-                                                    <label>E-mail：</label>
-                                                    <input className='informInput form-control' type='email' onChange={handlePhoneChange}></input>
-                                                </div>
-                                            </div>
-                                            <div className="row lineDiv">
-                                                <div className="">
-                                                    <label>信件內容：</label>
-                                                    <textarea className='informInput form-control' onChange={handleNameChange}></textarea>
-                                                </div>
-                                            </div>
-
-                                            <button className='nextBtn btn btn-secondary' onClick={handleSendEmailClick}>
-                                                送出
-                                            </button>
-
-                                            <a href="mailto:abc@gmail.com?cc=def@gmail.com,ghi@gmail.com&bcc=jkl@gmail.com&subject=這是一個主旨&body=xxx 您好：%0D%0A我想問的事情是%0D%0A回信請回到">
-                                                點擊我點擊我
-                                            </a>
-                                        </div>
+                                        <EmailForm handleENameChange={handleENameChange} handleEmailChange={handleEmailChange} 
+                                        handleEcontentChange={handleEcontentChange} handleDownload={handleDownload} 
+                                        handleSendEmailClick={handleSendEmailClick}/>
                                     </form>
                                 </div>
-                            )
-                        }
+                            }
 
-                        {
-                            showPaperDelivery && (
-                                <div id='paperDelivery'>
+                            {
+                                <div id='paperDelivery' className={`${showPaperDelivery ? 'fadeIn' : 'fadeOut'}`}>
                                     <form>
-                                        <Form handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} 
+                                        <PaperForm handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} 
                                         handleCountyChange={handleCountyChange} countyData={countyData} areaIndex={areaIndex} 
                                         handleAreaChange={handleAreaChange} areaData={areaData} handleAddressChange={handleAddressChange} 
                                         handleSendClick={handleSendClick}/>
                                     </form>
                                 </div>
-                            )
-                        }
+                            }
+                        </div>
                     </div>
 
                 )
             }
-
-
-            {/* <LazyLoadImage
-                src="https://picsum.photos/500/500?random=1"
-                className="img"
-                alt=""
-                placeholdersrc={PlaceholderImage}
-            /> */}
         </div>
     )
 }

@@ -1,5 +1,5 @@
 const Card = ({selectedColor, selectedImage, cardText, selectedDate, handleDownload}) => {
-    console.log('selectedColor =>', selectedColor)
+    // console.log('selectedColor =>', selectedColor)
     return (
         <div className='cardBlock'
             style={{backgroundColor: selectedColor}}>
@@ -18,7 +18,7 @@ const Card = ({selectedColor, selectedImage, cardText, selectedDate, handleDownl
                     <span className="cardDate">{selectedDate.toLocaleDateString('en-US')}</span>
                 :''
             }
-        <button onClick={handleDownload} className='btn btn-warning'><i className="bi bi-download"></i></button>
+        <button onClick={handleDownload} className='btn btn-warning'><i className="bi bi-download"> 保存</i></button>
         </div>
                 
     );

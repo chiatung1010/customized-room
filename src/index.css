@@ -1,10 +1,10 @@
 .main{
-  /* background-color: cadetblue; */
   font-family: unset;
+  color: #b84747;
 }
 
+/* top */
 .banner{
-  /* width: 100%; */
   height: auto;
   display: flex;
 }
@@ -61,14 +61,12 @@
   bottom: 3%;
   width: 100%;
   color: #242323;
-  /* transition: color 0.5s ease; */
   animation: flicker 2s infinite ease;
   text-align: center;
 }
 
 .goStart:hover{
   cursor: pointer; 
-  /* animation-play-state: paused; */
   opacity: 1;
   color: #242323;
 }
@@ -82,6 +80,7 @@
   }
 }
 
+/* view */
 .view{
   position: relative;
   height: 100vh;
@@ -99,7 +98,6 @@
   opacity: 0.3;
 }
 
-/* makeCard */
 .customArea{
   width: 1080px;
   top: 50%;
@@ -112,21 +110,19 @@
 .customAreaTopic{
   position: absolute;
   left: -183px;
-  top: -120px;
+  top: -98px;
   letter-spacing: 5px;
   font-size: 22px;
   font-family: unset;
   padding: 0 0 0 15px;
-  border-left: 7px solid #000;
+  border-left: 7px solid #b74747;
 }
 
-/* show */
+/* view-show */
 .show{
   position: absolute;
   width: 600px;
   height: 420px;
-  /* margin: 30px 0; */
-  /* border: 2px solid #959595; */
   -webkit-box-shadow: 0px 15px 15px rgba(0,0,0,0.1);
   box-shadow: 0px 15px 15px rgba(0,0,0,0.1);
 }
@@ -174,29 +170,26 @@
 .btn-warning{
   opacity: 0.3;
   position: absolute;
-  top: 92%;
-  left: 0;
+  top: 103%;
+  right: 0;
+  padding: 8px 10px;
   transition: opacity 0.3s ease; 
-
-  /* 滑鼠滑入狀態 */
-  &:hover {
-    opacity: 1;
-  }
 }
 
-/* .btn-warning:hover{
-  opacity: 0.8;
-} */
+.btn-warning:hover{
+  opacity: 1;
+}
 
-/* menu */
+
+/* view-menu */
 .menu{
   width: 430px;
   height: 420px;
   padding: 15px 45px;
   float: right;
   background-color: #e9e5de;
-  -webkit-box-shadow: 0 5px 20px rgba(0,0,0,.07);
-  box-shadow: 0 5px 20px rgba(0,0,0,.07);
+  -webkit-box-shadow: 0 5px 20px rgba(0,0,0,.1);
+  box-shadow: 0 5px 20px rgba(0,0,0,.1);
   border-radius: 2rem;
   border: none;
 }
@@ -205,7 +198,6 @@
   width: 100px;
   height: auto;
 }
-
 
 .form-control {
   width: 100%;
@@ -232,14 +224,7 @@
   width: 5%;
 }
 
-.pop{
-  /* width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0; */
-}
-
+/* view-popup */
 .popup{
   position: fixed;
   top: 50%;
@@ -252,7 +237,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   text-align: center;
-  /* max-height: 550px; */
+  color: #555;
 }
 
 .popupOverlay{
@@ -277,9 +262,17 @@
 }
 
 .popupContent{
-  /* display: flex; */
     display: grid;
     grid-template-columns: repeat(4,1fr);
+    margin: 10px 0;
+}
+
+.popupContent div{
+  padding: 8px 0px;
+}
+
+.popupContent p{
+  line-height: 35px;
 }
 
 .popupBtn{
@@ -306,6 +299,18 @@
   margin: 20px 0;
 }
 
+/* goSend */
+#goSend{
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #e9e5de;
+}
+
+.divHeight{
+  height: 100vh;
+}
+
 a{
   color: #ffffff;
   text-decoration: none;
@@ -316,20 +321,10 @@ a:hover{
   text-decoration: none;
 }
 
-/* nextStep */
-#nextStep{
-  /* width: 900px; */
-  /* height: 100vh; */
+#sendBtn{
   display: flex;
   justify-content: center; /* 水平置中 */
   align-items: center;
-  background-color: #e9e5de;
-  /* left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  position: relative;
-  display: flex;
-  justify-content: center; */
 }
 
 .chooseBtn{
@@ -340,35 +335,82 @@ a:hover{
   font-size: 18px;
 }
 
+.chooseBtn:hover,
+.chooseBtn_click:hover{
+  color:#ffffff;
+  background-color: #555;
+}
+
+.chooseBtn_click{
+  width: 200px;
+  height: 200px;
+  margin: 30px;
+  border-radius: 100px;
+  font-size: 18px;
+  color:#ffffff;
+  background-color: #555;
+}
+
 .lineDiv{
   margin: 16px 0;
 }
 
 #emailDelivery{
   width: 900px;
-  border: 2px solid #959595;
   border-radius: 20%;
-  border: 20px double #242323;
-  border: 2px solid #242323;
+  box-shadow: 0 5px 20px rgba(0,0,0,.1);
   border-radius: 30px;
   padding: 50px;
-  /* height: 100vh; */
+}
+
+#emailDelivery p{
+  line-height: 28px;
+}
+
+#emailDelivery a{
+  text-decoration: underline ;
+  color: #000;
+  cursor: pointer;
 }
 
 #paperDelivery{
   width: 900px;
-  /* height: 100vh; */
+  border-radius: 20%;
+  box-shadow: 0 5px 20px rgba(0,0,0,.1);
+  border-radius: 30px;
+  padding: 50px;
 }
 
-/* goSend */
-#goSend{
-  /* width: 900px; */
+.fadeIn {
+  display: block;
+  animation: 1s fade-in ease;
+}
+
+@keyframes fade-in {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+.fadeOut{
+  display: none;
+  animation: 1s fade-out ease;
+}
+
+@keyframes fade-out {
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
+#sendForm{
   display: flex;
-  /* height: 100vh; */
-  justify-content: center;
+  justify-content: center; /* 水平置中 */
   align-items: center;
-}
-
-.divHeight{
-  height: 100vh;
 }
