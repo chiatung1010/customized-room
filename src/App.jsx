@@ -34,6 +34,7 @@ const App = () => {
     const bannerImg2 = useRef(null);
     const bannerImg3 = useRef(null);
     const bannerImg4 = useRef(null);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
 
     const [selectedColor, setSelectedColor] = useState('#BDB39E');
     const [showPopup, setShowPopup] = useState(false);
@@ -218,13 +219,14 @@ const App = () => {
         }
     }
 
-    // 頁面第一次渲染時，引入縣市區Json檔案 並加入至變數初始值
     useEffect(() => {
-        console.log('new')
+        // console.log('new')
+
+        // 頁面第一次渲染時，引入縣市區Json檔案 並加入至變數初始值
         fetch('./json/area.json')
             .then((response) => response.json())
             .then((data) => {
-                console.log('data =>',data.area);
+                // console.log('data =>',data.area);
                 setCountyData(data.area)
                 setAreaData(data.area[0].countyArea)
             })
@@ -232,119 +234,83 @@ const App = () => {
                 console.error('Error:', error);
             });
 
-        // // banner圖片漸漸淡入
-        // if(bannerImg1.current){
-        //     setTimeout(() => {
-        //         bannerImg1.current.style.opacity = 1
-        //     }, 2000);
-        // }
-        // if(bannerImg2.current){
-        //     setTimeout(() => {
-        //         bannerImg2.current.style.opacity = 1
-        //     }, 2500);
-        // }
-        // if(bannerImg3.current){
-        //     setTimeout(() => {
-        //         bannerImg3.current.style.opacity = 1
-        //     }, 3000);
-        // }
-        // if(bannerImg4.current){
-        //     setTimeout(() => {
-        //         bannerImg4.current.style.opacity = 1
-        //     }, 3500);
-        // }
-
-        const fadeInDelay = 500; // 淡入延迟时间，单位为毫秒
-
+        // 圖片預加載
         const fadeInImage = (ref, delay) => {
             setTimeout(() => {
-                if (ref.current) {
+            if (ref.current) {
                 ref.current.style.opacity = 1;
-                }
+            }
             }, delay);
         };
+    
+        const preloadImages = () => {
+            const imageUrls = [
+                './image/banner/banner_01.jpg',
+                './image/banner/banner_02.jpg',
+                './image/banner/banner_03.jpg',
+                './image/banner/banner_04.jpg',
+            ];
+    
+            // 儲存預載入圖片
+            const promises = imageUrls.map((imageUrl) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.src = imageUrl;
+                    img.onload = resolve;
+                    img.onerror = reject;
+                });
+            });
 
-        const handleImageLoad = () => {
-            fadeInImage(bannerImg1, fadeInDelay);
-            fadeInImage(bannerImg2, fadeInDelay + 500);
-            fadeInImage(bannerImg3, fadeInDelay + 1000);
-            fadeInImage(bannerImg4, fadeInDelay + 1500);
+            // fulfilled or rejected
+            console.log('promises=>', promises)
+    
+            // 待圖片預載入完成，執行圖片淡入動作
+            Promise.all(promises)
+            .then(() => {
+                setImagesLoaded(true);
+                fadeInImage(bannerImg1, 500);
+                fadeInImage(bannerImg2, 1000);
+                fadeInImage(bannerImg3, 1500);
+                fadeInImage(bannerImg4, 2000);
+            })
+            .catch((error) => {
+                console.error('預加載失敗:', error);
+            });
         };
-
-        if (bannerImg1.current && bannerImg2.current && bannerImg3.current && bannerImg4.current) {
-            bannerImg1.current.addEventListener('load', handleImageLoad);
-            bannerImg2.current.addEventListener('load', handleImageLoad);
-            bannerImg3.current.addEventListener('load', handleImageLoad);
-            bannerImg4.current.addEventListener('load', handleImageLoad);
-        }
-
-        return () => {
-            if (bannerImg1.current && bannerImg2.current && bannerImg3.current && bannerImg4.current) {
-                bannerImg1.current.removeEventListener('load', handleImageLoad);
-                bannerImg2.current.removeEventListener('load', handleImageLoad);
-                bannerImg3.current.removeEventListener('load', handleImageLoad);
-                bannerImg4.current.removeEventListener('load', handleImageLoad);
-            }
-        };
+    
+        preloadImages();
     },[])
-
-    // useEffect(() => {
-    //     const options = {
-    //         root: null,
-    //         rootMargin: '0px',
-    //         threshold: 0.5, // 設定觸發點為圖片元素進入可見範圍 50%
-    //     };
-
-    //     const handleIntersection = (entries) => {
-    //         entries.forEach((entry) => {
-    //         if (entry.isIntersecting) {
-    //             setShowImages(true);
-    //         }
-    //         });
-    //     };
-
-    //     const observer = new IntersectionObserver(handleIntersection, options);
-    //     const target = imageContainerRef.current;
-
-    //     if (target) {
-    //         observer.observe(target);
-    //     }
-
-    //     return () => {
-    //         if (target) {
-    //         observer.unobserve(target);
-    //         }
-    //     };
-    // }, []);
 
     return (
         <div className='main'>
+            {/* {!imagesLoaded && <div>Loading...</div>} */}
             <div className='top'>
-                <div className='banner'>
-                    <div className='bBlock'>
-                    {/* <img src='./image/banner/banner_01.jpg' className='animate__fadeInDown infinite delay-2s slower'></img> */}
-                        <img src='./image/banner/banner_01.jpg' className='fadeInDown' ref={bannerImg1}></img>
-                    </div>
-                    <div className='bBlock'>
-                        <img src='./image/banner/banner_02.jpg' className='fadeInDown' ref={bannerImg2}></img>
-                    </div>
-                    <div className='bBlock'>
-                        <img src='./image/banner/banner_03.jpg' className='fadeInDown' ref={bannerImg3}></img>
-                    </div>
-                    <div className='bBlock'>
-                        <img src='./image/banner/banner_04.jpg' className='fadeInDown' ref={bannerImg4}></img>
-                    </div>
-                    <div className='caption'>
-                        <div className='captionText'>
-                            {/* <p>Christmas is a beautiful and heartwarming holiday where we exchange greetings and gifts. </p>
-                            <p>On this special day, you can use this website to quickly create your own postcard and send it to your loved ones, conveying this warmth. </p> */}
-                            <p>聖誕節是個美好且溫馨的節日，我們會在這個節日互相祝福、送禮。</p>
-                            <p>在這特別的日子，您可以使用此網頁，快速製作一個屬於你的明信片，並寄送給您愛的人們，傳送這份溫暖。</p>
-                            
+                {imagesLoaded && 
+                    <div className='banner'>
+                        <div className='bBlock'>
+                            <img src='./image/banner/banner_01.jpg' className='fadeInDown' ref={bannerImg1}></img>
                         </div>
-                        <a className='goStart' href='#view'>Go Start...</a>
+                        <div className='bBlock'>
+                            <img src='./image/banner/banner_02.jpg' className='fadeInDown' ref={bannerImg2}></img>
+                        </div>
+                        <div className='bBlock'>
+                            <img src='./image/banner/banner_03.jpg' className='fadeInDown' ref={bannerImg3}></img>
+                        </div>
+                        <div className='bBlock'>
+                            <img src='./image/banner/banner_04.jpg' className='fadeInDown' ref={bannerImg4}></img>
+                        </div>
+                        <div className='caption'>
+                            <div className='captionText'>
+                                <p>聖誕節是個美好且溫馨的節日，我們會在這個節日互相祝福、送禮。</p>
+                                <p>在這特別的日子，您可以使用此網頁，快速製作一個屬於你的明信片，並寄送給您愛的人們，傳送這份溫暖。</p>
+                                
+                            </div>
+                            <a className='goStart' href='#view'>Go Start...</a>
+                        </div>
+
+                    
                     </div>
-                </div>
+                }
             </div>
             <div className="view" id='view'>
                 <img src='./image/banner/background_04.jpg' className='viewBG'></img>
@@ -372,47 +338,6 @@ const App = () => {
                     showPopup && (
                         <Popup images={images} selectImage={selectImage} closePopup={closePopup}/>
                         
-                        // 延遲載入1
-                        // <div className="popup">
-                        //     <div className="popupTitle">
-                        //         <h3>選擇圖片</h3>
-                        //     </div>
-                        //     <div className="popupDiv">
-                        //         <div className="popupContent">
-                            
-                        //             {
-                        //                 images.map((image) => (
-                        //                     <div key={image.id} onClick={() => selectImage(image)}>
-                        //                         <LazyLoadImage className='materialImg' src={image.src} alt="" placeholdersrc={PlaceholderImage}/>
-                        //                         <p>{image.name}</p>
-                        //                     </div>
-                        //                 ))
-                        //             }
-                        //         </div>
-                        //     </div>
-                        //     <button className="popupBtn" onClick={closePopup}>×</button>
-                        // </div>
-                        // 延遲載入2
-                        // <div className="popup">
-                        //     <div className="popupTitle">
-                        //         <h3>選擇圖片</h3>
-                        //     </div>
-                        //     <div className="popupDiv">
-                        //         <div className="popupContent">
-                        //             <div className="imageContainer" ref={imageContainerRef}>
-                        //                 {
-                        //                     showImages &&
-                        //                         images.map((image) => (
-                        //                             <div key={image.id} onClick={() => selectImage(image)}>
-                        //                             <img className='materialImg' src={image.src} alt="" />
-                        //                             <p>{image.name}</p>
-                        //                             </div>
-                        //                         ))
-                        //                 }
-                        //             </div>
-                        //         </div>
-                        //     </div>
-                        // </div>
                     )
                 }
             </div>
