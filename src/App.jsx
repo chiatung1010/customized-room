@@ -287,17 +287,17 @@ const App = () => {
             <div className='top'>
                 {imagesLoaded && 
                     <div className='banner'>
-                        <div className='bBlock'>
-                            <img src='./image/banner/banner_01.jpg' className='fadeInDown' ref={bannerImg1}></img>
+                        <div className='bBlock' id='bBlock_m'>
+                            <img src='./image/banner/banner_04.jpg' className='fadeInDown' ref={bannerImg1}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_02.jpg' className='fadeInDown' ref={bannerImg2}></img>
+                            <img src='./image/banner/banner_01.jpg' className='fadeInDown' ref={bannerImg2}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_03.jpg' className='fadeInDown' ref={bannerImg3}></img>
+                            <img src='./image/banner/banner_02.jpg' className='fadeInDown' ref={bannerImg3}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_04.jpg' className='fadeInDown' ref={bannerImg4}></img>
+                            <img src='./image/banner/banner_03.jpg' className='fadeInDown' ref={bannerImg4}></img>
                         </div>
                         <div className='caption'>
                             <div className='captionText'>
@@ -315,8 +315,8 @@ const App = () => {
             <div className="view" id='view'>
                 <img src='./image/banner/background_04.jpg' className='viewBG'></img>
                 <div className='customArea'>
-                    <p className='customAreaTopic'>Make Your Own Card ! </p>
                     <div className='show' ref={divRef}>
+                        <p className='customAreaTopic'>Make Your Own Card ! </p>
                         <Card selectedColor={selectedColor} selectedImage={selectedImage} cardText={cardText} selectedDate={selectedDate} handleDownload={handleDownload}/>
                     </div>
 
