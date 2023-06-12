@@ -109,7 +109,7 @@
 
 .customAreaTopic{
   position: absolute;
-  left: -183px;
+  left: 0;
   top: -98px;
   letter-spacing: 5px;
   font-size: 22px;
@@ -411,6 +411,169 @@ a:hover{
 
 #sendForm{
   display: flex;
-  justify-content: center; /* 水平置中 */
+  justify-content: center;
   align-items: center;
+}
+
+.swal2-popup{
+  font-size: 16px;
+  width: 400px;
+  height: auto;
+  padding: 20px;
+}
+
+/* RWD */
+@media(max-width: 1200px) {
+  .goStart{
+    font-size: 28px;
+  }
+
+  .customArea{
+    width: 95%;
+  }
+
+  .menu{
+    width: 35%;
+  }
+}
+
+@media(max-width: 992px) {
+  .customArea{
+    width: 90%;
+  }
+
+  .show{
+    width: 500px;
+    height: 350px;
+  }
+
+  .menu{
+    width: 32%;
+    height: 350px;
+    padding: 10px 35px;
+  }
+
+  .lineDiv{
+    margin: 8px 0;
+  }
+
+  .nextBtn{
+    margin: 10px 0;
+  }
+
+  #sendBtn{
+    padding: 20px 0;
+  }
+
+  #sendForm{
+    margin: 0 5%;
+  }
+}
+
+@media(max-width: 768px) {
+  .bBlock{
+    display: none;
+  }
+
+  #bBlock_m{
+    display: block;
+    overflow: inherit;
+    opacity: 1;
+  }
+
+  .bBlock img {
+    width: auto;
+    height: 100vh;
+    margin: 0px 0px 0px -90px;
+  }
+
+  .captionText{
+    font-size: 15px;
+  }
+
+  .caption {
+    width: 30%;
+    font-size: 20px;
+    position: relative;
+    left: 300px;
+    margin: 0 0px 30px 0;
+  }
+
+  .customArea{
+    width: 70%;
+    display: flex;
+  } 
+
+  .customAreaTopic {
+    top: -55px;
+  }
+
+  .cardText{
+    padding: 16px 25px;
+    font-size: 35px;
+  }
+
+  .show{
+    top: -300px;
+    left: 50%;
+    width: 450px;
+    height: 315px;
+    transform: translate(-50%,0%);
+  }
+  
+  .popup{
+    width: 90%;
+  }
+
+  .menu{
+    position: absolute;
+    top: 30px;
+    width: 450px;
+    left: 50%;
+    transform: translate(-50%,0%);
+  }
+
+  .btn-warning{
+    top: 88%;
+    right: -80px;
+  }
+
+  .chooseBtn,
+  .chooseBtn_click {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media(max-width: 576px) {
+  .bBlock img {
+    margin: 0px 0px 0px -180px;
+  }
+
+  .caption {
+    font-size: 16px;
+    left: 240px;
+    margin: 0 0px 5px 0;
+  }
+
+  .show{
+    width: 420px;
+    height: 294px;
+  }
+
+  .menu{
+    width: 420px;
+  }
+
+  .btn-warning{
+    width: 50px;
+    top: -19%;
+    right: 0px;
+    padding: 8px 5px;
+  }
+
+  .popupContent{
+    grid-template-columns: repeat(3,1fr);
+    margin: 10px 0;
+  }
 }
