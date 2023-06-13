@@ -495,7 +495,7 @@ a:hover{
     width: 30%;
     font-size: 20px;
     position: relative;
-    left: 300px;
+    left: 35%;
     margin: 0 0px 30px 0;
   }
 
@@ -506,6 +506,7 @@ a:hover{
 
   .customAreaTopic {
     top: -55px;
+    font-size: 15px;
   }
 
   .cardText{
@@ -514,21 +515,25 @@ a:hover{
   }
 
   .show{
-    top: -300px;
+    top: -285px;
     left: 50%;
-    width: 450px;
-    height: 315px;
+    width: 350px;
+    height: 245px;
     transform: translate(-50%,0%);
   }
-  
+
+  .lineDiv {
+    margin: 0px 0;
+  }
+
   .popup{
     width: 90%;
   }
 
   .menu{
     position: absolute;
-    top: 30px;
-    width: 450px;
+    top: 5px;
+    width: 350px;
     left: 50%;
     transform: translate(-50%,0%);
   }
@@ -546,23 +551,22 @@ a:hover{
 }
 
 @media(max-width: 576px) {
-  .bBlock img {
-    margin: 0px 0px 0px -180px;
+  .goStart {
+    font-size: 20px;
   }
 
   .caption {
     font-size: 16px;
-    left: 240px;
+    left: 40%;
     margin: 0 0px 5px 0;
   }
 
-  .show{
-    width: 420px;
-    height: 294px;
+  .menu{
+    top: -35px;
   }
 
-  .menu{
-    width: 420px;
+  .lineDiv {
+    margin: 4px 0;
   }
 
   .btn-warning{
@@ -577,3 +581,32 @@ a:hover{
     margin: 10px 0;
   }
 }
+
+@media(max-width: 470px) {
+  .caption{
+    left: 0%;
+  }
+
+  .captionText {
+    width: 120%;
+    color: #cccccc;
+  }
+
+  .customAreaTopic {
+    font-size: 13px;
+  }
+
+  .btn-warning {
+    top: -25%;
+  }
+
+  .show{
+    width: 320px;
+    height: 224px;
+  }
+
+  .menu{
+    width: 320px;
+  }
+}
+
