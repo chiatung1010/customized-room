@@ -1,5 +1,5 @@
 .main{
-  font-family: unset;
+  font-family: monospace; /*等寬字體*/
   color: #b84747;
 }
 
@@ -45,6 +45,12 @@
   animation: fadeInAnimation ease 3s;
 }
 
+.captionTextLine{
+  white-space: pre-line;
+  /* white-space: pre-wrap; */
+  display: inline;
+}
+
 @keyframes fadeInAnimation {
   0% {
     opacity: 0;
@@ -88,7 +94,12 @@
   overflow: hidden;
 }
 
-.viewBG{
+#view{
+  background: rgba(195, 195, 195, 1) url("./image/banner/background_04.jpg") scroll no-repeat center / 100% 100%;
+  background-blend-mode: screen; /*混和模式疊加效果，screen：顏色+圖片，相乘起來會越亮*/
+}
+
+/* .viewBG{
   top: 0;
   left: 0;
   width: 100%;
@@ -96,7 +107,7 @@
   position: absolute;
   object-fit: cover;
   opacity: 0.3;
-}
+} */
 
 .customArea{
   width: 1080px;
@@ -113,7 +124,6 @@
   top: -98px;
   letter-spacing: 5px;
   font-size: 22px;
-  font-family: unset;
   padding: 0 0 0 15px;
   border-left: 7px solid #b74747;
 }
@@ -148,9 +158,9 @@
   font-family: 'Source Code Pro', monospace;
   width: 100%;
   text-align: center;
-  word-wrap: break-word;
+  /*word-wrap: break-word;
   word-break: break-all;
-  overflow: hidden;
+  overflow: hidden;*/
 }
 
 .cardDate{
@@ -162,7 +172,7 @@
   color: rgb(255, 230, 67);
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Source Code Pro', monospace;
+  font-family: 'Source Code Pro', monospace; /* google fonts */
   overflow: hidden;
   text-shadow: -1px -1px white, 1px 1px #bfbfbf
 }
@@ -263,7 +273,7 @@
 
 .popupContent{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4,1fr); /*網格系統*/
     margin: 10px 0;
 }
 
@@ -283,15 +293,15 @@
     width: 1.2em;
     height: 1.2em;
     padding: 0;
-    transition: color .1s ease-out;
+    /* transition: color .1s ease-out; */
     border: none;
-    border-radius: 0;
-    background: 0 0;
-    font-family: serif;
+    /* border-radius: 0; */
+    /* background: 0 0; */
+    /* font-family: serif; */
     font-size: 2.5em;
     line-height: 1.2;
-    cursor: pointer;
-    overflow: hidden;
+    /* cursor: pointer; */
+    /* overflow: hidden; */
 }
 
 .nextBtn{
@@ -301,19 +311,24 @@
 
 /* goSend */
 #goSend{
-  height: 100vh;
   justify-content: center;
   align-items: center;
   background-color: #e9e5de;
 }
 
+.noHeight{
+  display: none;
+  height: 0;
+}
+
 .divHeight{
+  display: block;
   height: 100vh;
 }
 
 a{
   color: #ffffff;
-  text-decoration: none;
+  text-decoration: none; /* 超連結預設底線不顯示 */
 }
 
 a:hover{
@@ -323,7 +338,7 @@ a:hover{
 
 #sendBtn{
   display: flex;
-  justify-content: center; /* 水平置中 */
+  justify-content: center; /*水平置中*/
   align-items: center;
 }
 
@@ -368,7 +383,7 @@ a:hover{
 }
 
 #emailDelivery a{
-  text-decoration: underline ;
+  text-decoration: underline; /*顯示底線*/
   color: #000;
   cursor: pointer;
 }
