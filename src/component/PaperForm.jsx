@@ -5,17 +5,17 @@ const PaperForm = ({handleNameChange, handlePhoneChange, handleCountyChange, cou
             <hr/>
             <div className="row lineDiv">
                 <div className="col">
-                    <label>姓名：</label>
+                    <p>姓名：</p>
                     <input className='informInput form-control' onChange={handleNameChange} required="required"></input>
                 </div>
                 <div className="col">
-                    <label>電話：</label>
+                    <p>電話：</p>
                     <input className='informInput form-control' type='number' onChange={handlePhoneChange} required="required"></input>
                 </div>
             </div>
             <div className="row lineDiv">
                 <div className="col-md-3">
-                    <label>縣市：</label>
+                    <p>縣市：</p>
                     <select className='form-control' onChange={handleCountyChange}>
                         {
                             countyData.map((e, i) => (
@@ -25,7 +25,7 @@ const PaperForm = ({handleNameChange, handlePhoneChange, handleCountyChange, cou
                     </select>
                 </div>
                 <div className="col-md-3">
-                    <label>區域：</label>
+                    <p>區域：</p>
                     <select className='form-control' value={areaIndex} onChange={handleAreaChange}>
                         {
                             areaData.map((e, i) => (
@@ -35,7 +35,7 @@ const PaperForm = ({handleNameChange, handlePhoneChange, handleCountyChange, cou
                     </select>
                 </div>
                 <div className="col-md-6">
-                    <label>住址：</label>
+                    <p>住址：</p>
                     <input className='informInput form-control' onChange={handleAddressChange} required="required"></input>
                 </div>
 

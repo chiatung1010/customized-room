@@ -8,7 +8,7 @@ const ColorPicker = ({ selectedColor, onColorChange }) => {
 
     return (
         <div className='lineDiv'>
-            <label>顏色：</label>
+            <p>顏色：</p>
             <div>
                 <input
                     type="color"

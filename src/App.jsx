@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+// import { PropTypes } from 'prop-types';
 import React, {Component, PropTypes} from 'react'
 import './App.css'
 
@@ -25,6 +26,13 @@ import Date from './component/Date'
 import EmailForm from './component/EmailForm'
 import PaperForm from './component/PaperForm'
 import CardText from './component/CardText';
+import Banner from './component/Banner';
+
+// import引入圖片路徑
+import newBannerImg1 from "./assets/image/banner/banner_01.jpg";
+import newBannerImg2 from "./assets/image/banner/banner_02.jpg";
+import newBannerImg3 from "./assets/image/banner/banner_03.jpg";
+import newBannerImg4 from "./assets/image/banner/banner_04.jpg";
 
 const App = () => {
 
@@ -41,6 +49,14 @@ const App = () => {
     const [selectedImage, setSelectedImage] = useState('');
     const [cardText, setCardText] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
+
+    // console.log('newBannerImg1 =>', newBannerImg1)
+    // console.log('newBannerImg2 =>', newBannerImg2)
+    // console.log('newBannerImg3 =>', newBannerImg3)
+    // console.log('newBannerImg4 =>', newBannerImg4)
+
+    // let newBanner = [newBannerImg1, newBannerImg2, newBannerImg3, newBannerImg4]
+    // console.log('newBanner=>', newBanner)
 
     // email寄送
     const [emailData, setEmailData] = useState({
@@ -244,13 +260,21 @@ const App = () => {
         };
     
         const preloadImages = () => {
-            const imageUrls = [
-                './image/banner/banner_01.jpg',
-                './image/banner/banner_02.jpg',
-                './image/banner/banner_03.jpg',
-                './image/banner/banner_04.jpg',
-            ];
+            // const imageUrls = [
+            //     './image/banner/banner_01.jpg',
+            //     './image/banner/banner_02.jpg',
+            //     './image/banner/banner_03.jpg',
+            //     './image/banner/banner_04.jpg',
+            // ];
     
+            // import引入圖片路徑
+            const imageUrls = [
+                newBannerImg1,
+                newBannerImg2,
+                newBannerImg3,
+                newBannerImg4,
+            ];
+
             // 儲存預載入圖片
             const promises = imageUrls.map((imageUrl) => {
                 return new Promise((resolve, reject) => {
@@ -286,34 +310,35 @@ const App = () => {
             {/* {!imagesLoaded && <div>Loading...</div>} */}
             <div className='top'>
                 {imagesLoaded && 
+                    // <Banner newBannerImg1={newBannerImg1} newBannerImg2={newBannerImg2} newBannerImg3={newBannerImg3} newBannerImg4={newBannerImg4}
+                    //     ref={{bannerImg1,bannerImg2,bannerImg3,bannerImg4}}
+                    // />
+                    // ref={{bannerImg1,bannerImg2,bannerImg3,bannerImg4}}
+
                     <div className='banner'>
                         <div className='bBlock' id='bBlock_m'>
-                            <img src='./image/banner/banner_04.jpg' className='fadeInDown' ref={bannerImg1}></img>
+                            <img src={newBannerImg4} className='fadeInDown' ref={bannerImg1}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_01.jpg' className='fadeInDown' ref={bannerImg2}></img>
+                            <img src={newBannerImg1} className='fadeInDown' ref={bannerImg2}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_02.jpg' className='fadeInDown' ref={bannerImg3}></img>
+                            <img src={newBannerImg2} className='fadeInDown' ref={bannerImg3}></img>
                         </div>
                         <div className='bBlock'>
-                            <img src='./image/banner/banner_03.jpg' className='fadeInDown' ref={bannerImg4}></img>
+                            <img src={newBannerImg3} className='fadeInDown' ref={bannerImg4}></img>
                         </div>
                         <div className='caption'>
                             <div className='captionText'>
-                                <p>聖誕節是個美好且溫馨的節日，我們會在這個節日互相祝福、送禮。</p>
-                                <p>在這特別的日子，您可以使用此網頁，快速製作一個屬於你的明信片，並寄送給您愛的人們，傳送這份溫暖。</p>
-                                
+                                <p className='captionTextLine'>聖誕節是個美好且溫馨的節日，我們會在這個節日互相祝福、送禮。{'\n'}在這特別的日子，您可以使用此網頁，快速製作一個屬於你的明信片，並寄送給您愛的人們，傳送這份溫暖。</p>
                             </div>
                             <a className='goStart' href='#view'>Go Start...</a>
-                        </div>
-
-                    
+                        </div> 
                     </div>
                 }
             </div>
             <div className="view" id='view'>
-                <img src='./image/banner/background_04.jpg' className='viewBG'></img>
+                {/* <img src='./image/banner/background_04.jpg' className='viewBG'></img> */}
                 <div className='customArea'>
                     <div className='show' ref={divRef}>
                         <p className='customAreaTopic'>Make Your Own Card ! </p>
@@ -344,41 +369,38 @@ const App = () => {
 
             {/* 觸發之後，才有區塊高度 */}
             {
-                divHeight && (
-                    <div id='goSend' className={`${divHeight ? 'divHeight' : ''}`}>
-                        <div id='sendBtn'>
-                            <a href='#goSend'>
-                                <button className={`${showEmailDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goEmailDelivery' onClick={handleGoEmailClick}>電子寄送</button>
-                            </a>
-                            <a href='#goSend'>
-                                <button className={`${showPaperDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goPaperDelivery' onClick={handleGoPaperClick}>實體寄送</button>
-                            </a>
-                        </div>
-                        <div id='sendForm'>
-                            {
-                                <div id='emailDelivery' className={`${showEmailDelivery ? 'fadeIn' : 'fadeOut'}`}>
-                                    <form>
-                                        <EmailForm handleENameChange={handleENameChange} handleEmailChange={handleEmailChange} 
-                                        handleEcontentChange={handleEcontentChange} handleDownload={handleDownload} 
-                                        handleSendEmailClick={handleSendEmailClick}/>
-                                    </form>
-                                </div>
-                            }
-
-                            {
-                                <div id='paperDelivery' className={`${showPaperDelivery ? 'fadeIn' : 'fadeOut'}`}>
-                                    <form>
-                                        <PaperForm handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} 
-                                        handleCountyChange={handleCountyChange} countyData={countyData} areaIndex={areaIndex} 
-                                        handleAreaChange={handleAreaChange} areaData={areaData} handleAddressChange={handleAddressChange} 
-                                        handleSendClick={handleSendClick}/>
-                                    </form>
-                                </div>
-                            }
-                        </div>
+                <div id='goSend' className={`${divHeight ? 'divHeight' : 'noHeight'}`}>
+                    <div id='sendBtn'>
+                        <a href='#goSend'>
+                            <button className={`${showEmailDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goEmailDelivery' onClick={handleGoEmailClick}>電子寄送</button>
+                        </a>
+                        <a href='#goSend'>
+                            <button className={`${showPaperDelivery ? 'chooseBtn_click btn btn-outline-secondary' : 'chooseBtn btn btn-outline-secondary'}`} id='goPaperDelivery' onClick={handleGoPaperClick}>實體寄送</button>
+                        </a>
                     </div>
+                    <div id='sendForm'>
+                        {
+                            <div id='emailDelivery' className={`${showEmailDelivery ? 'fadeIn' : 'fadeOut'}`}>
+                                <form>
+                                    <EmailForm handleENameChange={handleENameChange} handleEmailChange={handleEmailChange} 
+                                    handleEcontentChange={handleEcontentChange} handleDownload={handleDownload} 
+                                    handleSendEmailClick={handleSendEmailClick}/>
+                                </form>
+                            </div>
+                        }
 
-                )
+                        {
+                            <div id='paperDelivery' className={`${showPaperDelivery ? 'fadeIn' : 'fadeOut'}`}>
+                                <form>
+                                    <PaperForm handleNameChange={handleNameChange} handlePhoneChange={handlePhoneChange} 
+                                    handleCountyChange={handleCountyChange} countyData={countyData} areaIndex={areaIndex} 
+                                    handleAreaChange={handleAreaChange} areaData={areaData} handleAddressChange={handleAddressChange} 
+                                    handleSendClick={handleSendClick}/>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
             }
         </div>
     )

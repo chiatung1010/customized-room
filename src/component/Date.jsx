@@ -3,7 +3,7 @@ const Date = ({ DatePicker, selectedDate, handleDateChange }) => {
 
     return (
         <div className='lineDiv'>
-            <label>日期：</label>
+            <p>日期：</p>
             <DatePicker className='form-control' selected={selectedDate} onChange={handleDateChange} />
         </div>
     );

@@ -5,17 +5,17 @@ const EmailForm = ({handleENameChange, handleEmailChange, handleEcontentChange, 
             <hr/>
             <div className="row lineDiv">
                 <div className="col">
-                    <label>姓名：</label>
+                    <p>姓名：</p>
                     <input className='informInput form-control' onChange={handleENameChange} required="required"></input>
                 </div>
                 <div className="col">
-                    <label>E-mail：</label>
+                    <p>E-mail：</p>
                     <input className='informInput form-control' type='email' onChange={handleEmailChange} required="required"></input>
                 </div>
             </div>
             <div className="row lineDiv">
                 <div className="col">
-                    <label>信件內容：</label>
+                    <p>信件內容：</p>
                     <textarea className='informInput form-control' onChange={handleEcontentChange} required="required"></textarea>
                 </div>
             </div>
