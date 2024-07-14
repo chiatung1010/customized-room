@@ -1,5 +1,7 @@
-## X'mas Card For You !
-[website](https://chiatung1010.github.io/customized-room/)
+# X'mas Card For You !
+快速製作你的聖誕卡片
+
+[點我觀看網頁](https://chiatung1010.github.io/customized-room/)
 
 ### 內容
 此網頁可以快速製作一張屬於你的聖誕明信片，並寄送給您愛的人們，傳遞這份溫暖。
