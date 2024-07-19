@@ -1,5 +1,6 @@
 # X'mas Card For You !
 快速製作你的聖誕卡片
+<div align=left><img src="customized-room_preview01.jpg" width="600"/></div>
 
 [點我觀看網頁](https://chiatung1010.github.io/customized-room/)
 
